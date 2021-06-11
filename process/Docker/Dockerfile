@@ -6,9 +6,9 @@ ENV MYSQL_USER=mysql \
     MYSQL_DATA_DIR=/var/lib/mysql \
     MYSQL_RUN_DIR=/run/mysqld \
     MYSQL_LOG_DIR=/var/log/mysql \
-	DEBIAN_FRONTEND=noninteractive \
-	MYSQL_UID=1000 \
-	MYSQL_GID=1000
+    DEBIAN_FRONTEND=noninteractive \
+    MYSQL_UID=1000 \
+    MYSQL_GID=1000
 
 
 # Create mysql group and user 
@@ -16,7 +16,7 @@ RUN groupadd -g "${MYSQL_GID}" -r mysql
 RUN useradd -g "${MYSQL_GID}" -u "${MYSQL_UID}" -M -r mysql
 
 RUN apt-get update
-
+RUN apt-get install netcdf-bin -y
 ###########################################################
 # Nano (makes debugging easier in container)
 ###########################################################
@@ -56,7 +56,7 @@ RUN apt-get -qqy install software-properties-common
 ###########################################################
 RUN apt-get -y install wget maven git libblas-dev liblapack-dev libgfortran3 gfortran
 RUN mkdir -p /git
-RUN cd /git && git clone https://github.com/dafrenchyman/mrsharky.git
+RUN cd /git && git clone https://github.com/abdulmo123/mrsharky.git
 RUN cd /git/mrsharky && mvn clean install
 RUN cp /git/mrsharky/target/mrsharky-1.0-SNAPSHOT.jar /opt/mrsharky-1.0-SNAPSHOT.jar
 

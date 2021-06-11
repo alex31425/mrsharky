@@ -4,19 +4,19 @@ mkdir -p data
 mkdir -p mysql-files
 mkdir -p climateFiles
 
-USER='mrsharky'
+USER='amohamed'
 NAME="climate"
 MYSQL_UID="$(id -u ${USER})"	# Users UID
 MYSQL_GID="$(id -g ${USER})" # Users GID
-MYSQLPASS="whateverYouWant"
+MYSQLPASS="H5APYL2f123$"
 #WWW="/media/df926ae2-fef9-4ab3-ae5e-35d72f10131d/Dropbox/PhD/Reboot/Projects/Website"
-#MYSQLDATA="/home/mrsharky/Code/mrsharky/process/Docker/data"
-#MYSQLFILES="/home/mrsharky/Code/mrsharky/process/Docker/mysql-files"
-#FILES="/home/mrsharky/Code/mrsharky/process/Docker/climateFiles"
+MYSQLDATA="/home/amohamed/Programming/mrsharky/process/Docker/data"
+MYSQLFILES="/home/amohamed/Programming/mrsharky/process/Docker/mysql-files"
+FILES="/home/amohamed/Programming/mrsharky/process/Docker/climateFiles"
 
-MYSQLDATA="/mnt/SnapDisk_2TB_02/climate/data"
-MYSQLFILES="/mnt/SnapDisk_2TB_02/climate/mysql-files"
-FILES="/mnt/SnapDisk_2TB_02/climate/climateFiles"
+# MYSQLDATA="/mnt/SnapDisk_2TB_02/climate/data"
+# MYSQLFILES="/mnt/SnapDisk_2TB_02/climate/mysql-files"
+# FILES="/mnt/SnapDisk_2TB_02/climate/climateFiles"
 
 
 IMAGE="jpierret/climate"
@@ -37,7 +37,7 @@ echo $MYSQL_UID $MYSQL_GID
 # --net=\"host\" \
 #-v $WWW:/var/www/html \
 
-docker run \
+sudo docker run \
 -p 12306:3306 \
 -p 12080:80 \
 -p 12443:443 \

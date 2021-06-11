@@ -9,6 +9,7 @@ WORKFOLDER=/climateFiles
 DELETEALLDB="TRUE"
 JARLOCATION="/opt/mrsharky-1.0-SNAPSHOT.jar"
 CLASSLOCATION="com.mrsharky.dataprocessor.NetCdfParser"
+# NCFILE=$null 
 #"/climateFiles"
 
 # mysqldump -u mrsharky_climate -pFakePassword --routines --databases mrsharky_GriddedClimateData > mrsharky_GriddedClimateData.sql
@@ -66,7 +67,7 @@ while IFS=$'\t' read -r DATASETNAME DOWNLOADLOCATION INPUTFILE OUTPUTFILE DATABA
 	echo ""
 	START=$(date +%s)
 
-	wget -c ${DOWNLOADLOCATION} -O $WORKFOLDER/Data/${INPUTFILE}
+	wget -c ${DOWNLOADLOCATION} -O $WORKFOLDER/Data/${INPUTFILE} # put this in loop (BIG while loop)
 
 	echo ""
 	END=$(date +%s)
@@ -99,14 +100,21 @@ while IFS=$'\t' read -r DATASETNAME DOWNLOADLOCATION INPUTFILE OUTPUTFILE DATABA
 	echo ""
 	START=$(date +%s)
 
-	java -cp ${JARLOCATION} ${CLASSLOCATION} \
-		-INPUT $WORKFOLDER/Data/${INPUTFILE} -OUTPUT /var/lib/mysql-files/${OUTPUTFILENAME}\
+	# while (nc files exist)
+   	# get nc file via ftp
+   	# nccopy to convert the file to netcdf4-classic
+   	# feed converted file to netcdfparser
+
+	echo "Name of the input file: // === ${INPUTFILE}"
+	nccopy -k 4 $WORKFOLDER/Data/${INPUTFILE} $WORKFOLDER/Data/file.nc
+	java -cp ${JARLOCATION} ${CLASSLOCATION} \ 		### run this from terminal/IDE instead of running shell script
+		-INPUT $WORKFOLDER/Data/file.nc -OUTPUT /var/lib/mysql-files/${OUTPUTFILENAME}\
 		-DATABASEURL "jdbc:mysql://${SQLSERVER}/${DATABASESTORE}"\
 		-DATABASEUSERNAME "${SQLUSERNAME}" -DATABASEPASSWORD "${SQLPASS}"\
 		-VARIABLEOFINTEREST "${VARIABLEOFINTEREST}" -TIMEVARIABLE "time"
 	errorType=$?
 	if [ "$errorType" != "0" ]; then
-		echo "ERROR - Unable to extract netCDF file"
+		echo "ERROR - Unable to extract netCDF file" 	# ERROR MESSAGE PRINTED
 		mysql -u ${SQLUSERNAME} --password=${SQLPASS}  -s -N -e	"	\
 			DROP DATABASE ${DATABASESTORE}"
 		continue
@@ -299,7 +307,3 @@ gzip -f $WORKFOLDER/Data/mrsharky_GriddedClimateDatasql
 #DOWNLOADLOCATION=`echo $SQLVALUES | awk '{printf $2}'`
 #echo $DOWNLOADLOCATION
 #echo $INPUTFILE
-
-
-
-
