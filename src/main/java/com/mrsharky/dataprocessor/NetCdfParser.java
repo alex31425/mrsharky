@@ -369,7 +369,7 @@ public class NetCdfParser {
                 ArrayFloat.D3 variableArray = (ArrayFloat.D3) varOfInterest.read();
 
                 int variableDim[] = variableArray.getShape();
-                double totalRows = variableDim[0] * variableDim[1] * variableDim[3];
+                double totalRows = variableDim[0] * variableDim[1] * variableDim[2];
                 String dim1name = varOfInterest.getDimension(0).getFullName();
                 String dim2name = varOfInterest.getDimension(1).getFullName();
                 String dim3name = varOfInterest.getDimension(2).getFullName();
@@ -380,7 +380,7 @@ public class NetCdfParser {
                         List<Float> valuesToDb = new ArrayList<Float>();
                         List<Integer> gridIdToDb = new ArrayList<Integer>();
                         List<Integer> datasetIdToDb = new ArrayList<Integer>();
-                        for (int k = 0; k < variableDim[3]; k++) {
+                        for (int k = 0; k < variableDim[2]; k++) {
                             counter++;
                             StringBuilder sb = new StringBuilder();
                             // Date
