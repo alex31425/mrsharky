@@ -1,5 +1,5 @@
-#FROM ubuntu:18.04
-FROM sgrio/java:latest_ubuntu
+FROM ubuntu:18.04
+#FROM sgrio/java:latest_ubuntu
 MAINTAINER Julien Pierret <dafrenchyman@gmail.com>
 
 ENV MYSQL_USER=mysql \
