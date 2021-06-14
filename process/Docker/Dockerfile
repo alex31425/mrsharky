@@ -58,7 +58,7 @@ RUN apt-get -qqy install software-properties-common
 ###########################################################
 RUN apt-get -y install wget maven git libblas-dev liblapack-dev libgfortran3 gfortran
 RUN mkdir -p /git
-RUN cd /git && git clone https://github.com/dafrenchyman/mrsharky.git
+RUN cd /git && git clone https://github.com/abdulmo123/mrsharky.git
 RUN cd /git/mrsharky && mvn clean install
 RUN cp /git/mrsharky/target/mrsharky-1.0-SNAPSHOT.jar /opt/mrsharky-1.0-SNAPSHOT.jar
 
