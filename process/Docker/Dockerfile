@@ -1,14 +1,14 @@
-FROM ubuntu:18.04
-#FROM sgrio/java:latest_ubuntu
+#FROM ubuntu:18.04
+FROM sgrio/java:latest_ubuntu
 MAINTAINER Julien Pierret <dafrenchyman@gmail.com>
 
 ENV MYSQL_USER=mysql \
     MYSQL_DATA_DIR=/var/lib/mysql \
     MYSQL_RUN_DIR=/run/mysqld \
     MYSQL_LOG_DIR=/var/log/mysql \
-    DEBIAN_FRONTEND=noninteractive \
-    MYSQL_UID=1000 \
-    MYSQL_GID=1000
+	DEBIAN_FRONTEND=noninteractive \
+	MYSQL_UID=1000 \
+	MYSQL_GID=1000
 
 
 # Create mysql group and user 
@@ -18,6 +18,7 @@ RUN useradd -g "${MYSQL_GID}" -u "${MYSQL_UID}" -M -r mysql
 RUN apt-get update
 RUN apt-get install netcdf-bin -y
 RUN apt-get install dos2unix -y
+
 ###########################################################
 # Nano (makes debugging easier in container)
 ###########################################################
@@ -46,17 +47,18 @@ RUN apt-get -qqy install software-properties-common
 ###########################################################
 # Java
 ###########################################################
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get -qqy update
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-RUN apt-get -qqy install openjdk-11-jre-headless
+#RUN add-apt-repository -y ppa:webupd8team/java
+#RUN apt-get -qqy update
+#RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+#RUN apt-get -qqy install oracle-java8-installer
+#RUN apt-get -qqy install oracle-java8-set-default
 
 ###########################################################
 # Maven and git
 ###########################################################
 RUN apt-get -y install wget maven git libblas-dev liblapack-dev libgfortran3 gfortran
 RUN mkdir -p /git
-RUN cd /git && git clone https://github.com/abdulmo123/mrsharky.git
+RUN cd /git && git clone https://github.com/dafrenchyman/mrsharky.git
 RUN cd /git/mrsharky && mvn clean install
 RUN cp /git/mrsharky/target/mrsharky-1.0-SNAPSHOT.jar /opt/mrsharky-1.0-SNAPSHOT.jar
 
