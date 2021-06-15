@@ -10,15 +10,9 @@ MYSQL_UID="$(id -u ${USER})"	# Users UID
 MYSQL_GID="$(id -g ${USER})" # Users GID
 MYSQLPASS="abdullahim123"
 #WWW="/media/df926ae2-fef9-4ab3-ae5e-35d72f10131d/Dropbox/PhD/Reboot/Projects/Website"
-<<<<<<< HEAD
-MYSQLDATA="/home/amohamed/Programming/mrsharky/process/Docker/data"
-MYSQLFILES="/home/amohamed/Programming/mrsharky/process/Docker/mysql-files"
-FILES="/home/amohamed/Programming/mrsharky/process/Docker/climateFiles"
-=======
 MYSQLDATA="/mnt/c/Users/abdul/CSDrive/mrsharky/process/Docker/data"
 MYSQLFILES="/mnt/c/Users/abdul/CSDrive/mrsharky/process/Docker/mysql-files"
 FILES="/mnt/c/Users/abdul/CSDrive/mrsharky/process/Docker/climateFiles"
->>>>>>> 411ce606b693b3d03f8ecba28df2a55094001215
 
 # MYSQLDATA="/mnt/SnapDisk_2TB_02/climate/data"
 # MYSQLFILES="/mnt/SnapDisk_2TB_02/climate/mysql-files"
