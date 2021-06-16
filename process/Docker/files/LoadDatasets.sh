@@ -297,7 +297,7 @@ SELECT																			\
 
 echo "Finished Loading all the requested datasets"
 mysqldump -p${SQLPASS} --routines mrsharky_GriddedClimateData > $WORKFOLDER/Data/mrsharky_GriddedClimateData.sql
-gzip -f $WORKFOLDER/Data/mrsharky_GriddedClimateDatasql
+gzip -f $WORKFOLDER/Data/mrsharky_GriddedClimateData.sql
 
 #echo ${DOWNLOADLOCATION}
 #echo ${INPUTFILE}
