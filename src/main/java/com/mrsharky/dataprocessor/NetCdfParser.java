@@ -5,6 +5,18 @@
  */
 package com.mrsharky.dataprocessor;
 
+import com.mrsharky.climateDatabase.DbDate;
+import com.mrsharky.climateDatabase.GridBox;
+import com.mrsharky.climateDatabase.DbLevel;
+import com.mrsharky.climateDatabase.ClimateDatabase;
+import com.mrsharky.climateDatabase.SqlStatements;
+import ucar.nc2.Dimension;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
+import ucar.ma2.ArrayFloat;
+import ucar.ma2.ArrayDouble;
+import ucar.ma2.InvalidRangeException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,32 +24,21 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.mrsharky.climateDatabase.ClimateDatabase;
-import com.mrsharky.climateDatabase.DbLevel;
-import com.mrsharky.climateDatabase.GridBox;
-import com.mrsharky.climateDatabase.SqlStatements;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
-
-import ucar.ma2.ArrayDouble;
-import ucar.ma2.ArrayFloat;
-import ucar.ma2.InvalidRangeException;
-import ucar.nc2.Dimension;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.Variable;
 
 /**
  *
@@ -52,7 +53,6 @@ public class NetCdfParser {
     private Map<Double, String> _levelToNameMap;
     private Map<String, Double> _nameToLevelMap;
     private String[] _dates;
-    // private Double[] _soilw;
     private Double[] _lats;
     private Double[] _lons;
     private String[] _levels;
@@ -128,22 +128,6 @@ public class NetCdfParser {
         }
         return lons;
     }
-
-    // private Double[] GetSoilwFromVariable(Variable dimVar) throws Exception {
-    // String soilwUnits = dimVar.getUnitsString();
-    // Double[] soilw = new Double[0];
-    // if (soilwUnits.equals("mm")) {
-    // ArrayFloat.D1 soilwArray = (ArrayFloat.D1) dimVar.read();
-    // soilw = new Double[soilwArray.getShape()[0]];
-    // System.out.println("Found Soil Dimensions: " + soilw.length);
-    // for (int counter = 0; counter < soilw.length; counter++) {
-    // soilw[counter] = (double) soilwArray.get(counter);
-    // }
-    // } else {
-    // throw new Exception("SoilwUnits: " + soilwUnits + " is unknown");
-    // }
-    // return soilw;
-    // }
 
     private Double[] GetLatsFromVariable(Variable dimVar) throws Exception {
         String latUnits = dimVar.getUnitsString();
@@ -239,8 +223,6 @@ public class NetCdfParser {
         _lons = new Double[0];
         List<Double> lonList = new ArrayList<Double>();
         _levels = new String[0];
-        // List<Double> soilList = new ArrayList<Double>();
-        // _soilw = new Double[0];
         List<String> levelList = new ArrayList<String>();
 
         int latDimLocation;
@@ -256,17 +238,12 @@ public class NetCdfParser {
             dataFile = NetcdfFile.open(_inputFile, null);
 
             List<Variable> allVariables = dataFile.getVariables();
-            System.out.println("Listing all available variables --- ");
+            System.out.println("Listing all available variables:");
             for (Variable currVar : allVariables) {
-                System.out.print(currVar.getFullName() + "  --> "); // element of each position
+                System.out.print(currVar.getFullName() + "; ");
             }
 
-            // for (int i = 0; i < allVariables.size(); i++) {
-            // Variable currVar = allVariables.get(i);
-            // System.out.print(currVar.getDimension(i) + " = ;");
-            // }
-
-            System.out.println("\nFinding all parameters --- ");
+            System.out.println("\nFinding all parameters");
             for (Variable findVar : allVariables) {
                 if (findVar.getFullName().toUpperCase().equals(variableOfInterest.toUpperCase())) {
                     Variable currVar = dataFile.findVariable(variableOfInterest);
@@ -369,7 +346,7 @@ public class NetCdfParser {
                 ArrayFloat.D3 variableArray = (ArrayFloat.D3) varOfInterest.read();
 
                 int variableDim[] = variableArray.getShape();
-                double totalRows = variableDim[0] * variableDim[1] * variableDim[3];
+                double totalRows = variableDim[0] * variableDim[1] * variableDim[2];
                 String dim1name = varOfInterest.getDimension(0).getFullName();
                 String dim2name = varOfInterest.getDimension(1).getFullName();
                 String dim3name = varOfInterest.getDimension(2).getFullName();
@@ -380,7 +357,7 @@ public class NetCdfParser {
                         List<Float> valuesToDb = new ArrayList<Float>();
                         List<Integer> gridIdToDb = new ArrayList<Integer>();
                         List<Integer> datasetIdToDb = new ArrayList<Integer>();
-                        for (int k = 0; k < variableDim[3]; k++) {
+                        for (int k = 0; k < variableDim[2]; k++) {
                             counter++;
                             StringBuilder sb = new StringBuilder();
                             // Date
@@ -392,7 +369,6 @@ public class NetCdfParser {
                             } else if (dim3name.equals(_timeVariable)) {
                                 date = _dates[k];
                             }
-
                             int currDate = _dateMap.get(date);
                             datesToDb.add(currDate);
 
@@ -452,19 +428,10 @@ public class NetCdfParser {
                 String dim3name = varOfInterest.getDimension(2).getFullName();
                 String dim4name = varOfInterest.getDimension(3).getFullName();
 
-                // System.out.println("============================= PRINT STATEMENTS
-                // =============================");
-                // System.out.println(dim1name);
-                // System.out.println(dim2name);
-                // System.out.println(dim3name);
-                // System.out.println(dim4name);
-                // System.out.println("============================= END
-                // =============================");
-
                 for (int i = 0; i < dim1length; i++) {
                     int[] origin = new int[] { i, 0, 0, 0 };
-                    int[] size = new int[] { 1, varOfInterest.getDimension(0).getLength(),
-                            varOfInterest.getDimension(1).getLength(), varOfInterest.getDimension(3).getLength() };
+                    int[] size = new int[] { 1, varOfInterest.getDimension(1).getLength(),
+                            varOfInterest.getDimension(2).getLength(), varOfInterest.getDimension(3).getLength() };
 
                     ArrayFloat.D4 variableArray = (ArrayFloat.D4) varOfInterest.read(origin, size);
                     List<Integer> datesToDb = new ArrayList<Integer>();
