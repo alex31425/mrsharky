@@ -1,8 +1,4 @@
 /target/
 .project
-.classpath
 org.*
-*.frm
-*.MYD
 *.nc
-*.MYI
