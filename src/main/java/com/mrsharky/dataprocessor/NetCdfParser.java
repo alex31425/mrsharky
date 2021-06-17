@@ -562,8 +562,7 @@ public class NetCdfParser {
                     timeVariable = args[++argsCounter];
                     break;
                 default:
-                    System.out.println("test");
-                    // throw new IllegalArgumentException("Invalid input argument: " + currArg);
+                    throw new IllegalArgumentException("Invalid input argument: " + currArg);
             }
         }
 
@@ -573,8 +572,7 @@ public class NetCdfParser {
                     variableOfInterest, timeVariable);
             parser.ProcessToCsvFile(outputFile);
         } else {
-            System.out.println("test");
-            // throw new IllegalArgumentException("Problem with the input argumments");
+            throw new IllegalArgumentException("Problem with the input argumments");
         }
 
         System.exit(0);
