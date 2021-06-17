@@ -240,8 +240,7 @@ public class NetCdfParser {
             List<Variable> allVariables = dataFile.getVariables();
             System.out.println("Listing all available variables:");
             for (Variable currVar : allVariables) {
-                System.out.println("test!");
-                System.out.print(currVar.getFullName() + "; ");
+                System.out.print(currVar.getFullName() + " = " + currVar.getDimensions() + "; \n");
             }
 
             System.out.println("\nFinding all parameters");
