@@ -3,3 +3,4 @@
 .project
 org.*
 *.nc
+*.csv
