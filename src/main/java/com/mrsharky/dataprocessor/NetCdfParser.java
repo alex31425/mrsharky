@@ -245,6 +245,7 @@ public class NetCdfParser {
 
             System.out.println("\nFinding all parameters");
             for (Variable findVar : allVariables) {
+                System.out.println(findVar.getDimensions());
                 if (findVar.getFullName().toUpperCase().equals(variableOfInterest.toUpperCase())) {
                     Variable currVar = dataFile.findVariable(variableOfInterest);
                     variableOfInterestUnits = currVar.getUnitsString();
@@ -338,7 +339,7 @@ public class NetCdfParser {
             dataFile = NetcdfFile.open(_inputFile, null);
             Variable varOfInterest = dataFile.findVariable(_variableOfInterest);
 
-            System.out.println("First: " + varOfInterest.getFullName());
+            System.out.println("First: " + varOfInterest.getFullName()); // varOfinterest is NULL
             System.out.println(_variableOfInterest);
 
             OutputStream outputStream = new FileOutputStream(outputFile);
