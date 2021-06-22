@@ -197,8 +197,13 @@ public class NetCdfParser {
             String variableOfInterest, String timeVariable) {
         // Get database info
         _inputFile = inputFile;
+        System.out.println("===========" + _inputFile + "===========");
+
         _variableOfInterest = variableOfInterest;
+        System.out.println("===========" + _variableOfInterest + "===========");
+
         _timeVariable = timeVariable;
+        System.out.println("===========" + _timeVariable + "===========");
 
         DBI dbi = null;
         try {

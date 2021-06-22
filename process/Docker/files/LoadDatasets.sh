@@ -106,12 +106,6 @@ while IFS=$'\t' read -r DATASETNAME DOWNLOADLOCATION INPUTFILE OUTPUTFILE DATABA
 
 	echo "Name of the input file: // === ${INPUTFILE}"
 	nccopy -k 4 $WORKFOLDER/Data/${INPUTFILE} $WORKFOLDER/Data/file.nc
-	# java -cp ${JARLOCATION} ${CLASSLOCATION} \ 		### run this from terminal/IDE instead of running shell script
-	# 	-INPUT $WORKFOLDER/Data/file.nc -OUTPUT /var/lib/mysql-files/${OUTPUTFILENAME}\
-	# 	-DATABASEURL "jdbc:mysql://${SQLSERVER}/${DATABASESTORE}"\
-	# 	-DATABASEUSERNAME "${SQLUSERNAME}" -DATABASEPASSWORD "${SQLPASS}"\
-	# 	-VARIABLEOFINTEREST "${VARIABLEOFINTEREST}" -TIMEVARIABLE "time"
-	# errorType=$?
 	java -cp ${JARLOCATION} ${CLASSLOCATION} \
 		-INPUT $WORKFOLDER/Data/file.nc -OUTPUT /var/lib/mysql-files/${OUTPUTFILENAME}\
 		-DATABASEURL "jdbc:mysql://${SQLSERVER}/${DATABASESTORE}"\
