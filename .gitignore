@@ -4,3 +4,4 @@
 org.*
 *.nc
 *.csv
+bin/*

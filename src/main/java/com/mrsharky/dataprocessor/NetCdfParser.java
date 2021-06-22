@@ -347,7 +347,8 @@ public class NetCdfParser {
 
             double counter = 0;
             if (_levels.length == 0) {
-                ArrayFloat.D3 variableArray = (ArrayFloat.D3) varOfInterest.read();
+                ArrayFloat.D3 variableArray = new ArrayFloat.D3(0, 0, 0);
+                variableArray = (ArrayFloat.D3) varOfInterest.read();
 
                 int variableDim[] = variableArray.getShape();
                 double totalRows = variableDim[0] * variableDim[1] * variableDim[2];
