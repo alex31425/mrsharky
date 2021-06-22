@@ -339,7 +339,7 @@ public class NetCdfParser {
             dataFile = NetcdfFile.open(_inputFile, null);
             Variable varOfInterest = dataFile.findVariable(_variableOfInterest);
 
-            System.out.println("First: " + varOfInterest.getFullName()); // varOfinterest is NULL
+            // System.out.println("First: " + varOfInterest.getFullName());
             System.out.println(_variableOfInterest);
 
             OutputStream outputStream = new FileOutputStream(outputFile);
