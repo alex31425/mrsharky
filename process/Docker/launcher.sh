@@ -4,7 +4,7 @@ mkdir -p data
 mkdir -p mysql-files
 mkdir -p climateFiles
 
-USER='amohamed'
+USER='root'
 NAME="climate"
 MYSQL_UID="$(id -u ${USER})"	# Users UID
 MYSQL_GID="$(id -g ${USER})" # Users GID
