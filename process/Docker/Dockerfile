@@ -19,6 +19,7 @@ RUN apt-get update
 RUN apt-get install netcdf-bin -y
 RUN apt-get install dos2unix -y
 
+
 ###########################################################
 # Nano (makes debugging easier in container)
 ###########################################################
@@ -58,7 +59,7 @@ RUN apt-get -qqy install openjdk-11-jre-headless
 ###########################################################
 RUN apt-get -y install wget maven git libblas-dev liblapack-dev libgfortran3 gfortran
 RUN mkdir -p /git
-RUN cd /git && git clone https://github.com/abdulmo123/mrsharky.git
+RUN cd /git && git clone https://github.com/alex31425/mrsharky.git
 RUN cd /git/mrsharky && mvn clean install
 RUN cp /git/mrsharky/target/mrsharky-1.0-SNAPSHOT.jar /opt/mrsharky-1.0-SNAPSHOT.jar
 
